@@ -20,6 +20,7 @@ public class Hoteladmin {
 			@Override
 			public void run() {
 				new MainFrame();
+                 
 			}
 		});
     }
