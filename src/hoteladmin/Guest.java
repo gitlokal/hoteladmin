@@ -5,16 +5,47 @@
  */
 package hoteladmin;
 
+
 /**
  *
  * @author lokal
  */
-public class Guest {
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import org.hibernate.search.annotations.Indexed;
+
+
+
+  @Entity
+  @Indexed
+public class Guest implements Serializable {
+      
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+    
+    
     private String name="empty";
+    
+    
     private String lastName="empty";
-    private String address="empty";
+    
+  
+    private String street="empty";
+    
+    
     private String city="empty";
+    
+   
     private String phone="empty";
+    
+
+  public void setId(int id) {
+        this.id = id;
+    }
     
   public void setName(String name) {
        this.name=name;
@@ -24,13 +55,17 @@ public class Guest {
        this.lastName=lastName;
   }
      
-  public void setAddress(String addres) {
-       this.address=address;
+  public void setStreet(String street) {
+       this.street=street;
   }
      
   public void setCity(String city) {
        this.city=city;
   } 
+
+  public int getId() {
+        return id;
+    }
    
   public void setPhone(String phone) {
        this.phone=phone;
@@ -45,8 +80,8 @@ public class Guest {
      return this.lastName; 
   }
    
-  public String getAddress(){
-     return this.address; 
+  public String getStreet(){
+     return this.street; 
   }
   
   public String getCity(){

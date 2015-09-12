@@ -10,6 +10,7 @@ package hoteladmin;
  * @author lokal
  */
 import java.awt.EventQueue;
+
 public class Hoteladmin {
 
     /**
@@ -19,10 +20,12 @@ public class Hoteladmin {
           EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
+                            
 				new MainFrame();
                  
 			}
 		});
     }
+
     
 }

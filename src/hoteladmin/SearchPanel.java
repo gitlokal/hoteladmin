@@ -10,11 +10,12 @@ package hoteladmin;
  * @author lokal
  */
 
+import java.awt.Point;
 import javax.swing.*;
-import java.util.List;
 import java.awt.event.*;
 import java.util.Iterator;
 import java.lang.InterruptedException;
+import java.io.IOException;
 import org.apache.lucene.index.CorruptIndexException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,24 +23,32 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
-import org.hibernate.search.store.DirectoryProvider;  
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.search.Query;
+import org.hibernate.search.exception.EmptyQueryException;
+
 
 public class SearchPanel extends GuestForm  {
     
         protected JTextField reservationField;
         protected JLabel reservation = new JLabel("nr rez.");
         private SearchGuest searchGuest = new SearchGuest();
-    public SearchPanel(){
+        
+        private SearchGuest search1;
+        private ShowResult showResult= new ShowResult();
+        private IndexWriter indexWriter;
+        private Point point = reservation.getLocation();
+        public SearchPanel(){
         super("szukaj");
         reservationField = new JTextField();
         reservationField.setColumns(8);
         this.add(reservation);
         this.add(reservationField);
         this.add(confirmButton);
-        
-       
-        
-        
+        this.add(showResult);
+        nameField.addActionListener(this);
+     
+ 
         
     }   
     
@@ -53,30 +62,68 @@ public class SearchPanel extends GuestForm  {
                     try{
                         searchingData();
                     } catch(InterruptedException IE){
-                        System.out.println("blad1");
+                        MyDialog dialog = new MyDialog(point, "BŁĄD", "przerwany index");
                         
                     } catch(CorruptIndexException CE){
-                        System.out.println("blad2");
+                        
+                        MyDialog dialog = new MyDialog(point, "BŁĄD", "Index zajęty");
+                        
+                    } catch(IOException IO) {
+                        
+                        MyDialog dialog = new MyDialog(point, "BŁĄD", "Błąd I/O");
+                        
+                    } catch (EmptyQueryException EQ){
+                        MyDialog dialog = new MyDialog(point, "BŁĄD", "nieprawdiłowe zapytanie");
+                             
                     }
               
                     
     }
-    private void searchingData() throws CorruptIndexException, InterruptedException {
-                    SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-                    Session session = sessionFactory.openSession();
-                    FullTextSession fullTextSession = Search.getFullTextSession(session);
-                    fullTextSession.createIndexer().startAndWait();
-                    final QueryBuilder b = fullTextSession.getSearchFactory().buildQueryBuilder().forEntity( SearchGuest.class ).get();
+    
+    
+    private void searchingData() throws CorruptIndexException, InterruptedException, IOException, EmptyQueryException {
 
-                    org.apache.lucene.search.Query luceneQuery = b.keyword().onField("name").boostedTo(3).matching( searchGuest.getName() ).createQuery();
-                    org.hibernate.Query fullTextQuery = fullTextSession.createFullTextQuery( luceneQuery );
-                    List result = (List) fullTextQuery.list(); //return a list of managed objects, do zmiany
-                    //fullTextQuery.getFirstResult();
-                    Iterator it = fullTextQuery.list().iterator();
-                    while(it.hasNext()){
-                        SearchGuest search1 = (SearchGuest) it.next();
-                        System.out.print(search1.getPhone());
-                    }
-                    session.close();
+                            SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+                            Session session = sessionFactory.openSession();
+
+                            FullTextSession fullTextSession = Search.getFullTextSession(session);
+                            fullTextSession.createIndexer().startAndWait();
+                            
+                            final QueryBuilder b = fullTextSession.getSearchFactory().buildQueryBuilder().forEntity( SearchGuest.class ).get();
+                            
+                           
+                                Query luceneQuery = b.keyword().onField("name").boostedTo(1).matching( searchGuest.getName() ).createQuery();
+                                
+                          
+                            
+                            org.hibernate.Query fullTextQuery = fullTextSession.createFullTextQuery( luceneQuery );
+                            
+                            Iterator it = fullTextQuery.list().iterator();
+
+                            sessionFactory.close();
+
+                            while(it.hasNext()){
+                                search1 = (SearchGuest) it.next();
+                               // System.out.print(search1.getPhone()+ " " +search1.getLastName());
+
+                                
+                                     
+                                 
+                                 System.out.println(search1.getName()+search1.getLastName()+ search1.getStreet()+ search1.getCity()+ search1.getPhone());
+                                 
+                                 
+  
+                             }
+                                
+                             showResult.setSearch(search1 );
+                             showResult.revalidate();
+                              
+                    
+                 
+                     
     }
+    
+     
+  
+    
 }

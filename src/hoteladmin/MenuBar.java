@@ -23,9 +23,9 @@ public class MenuBar extends JFrame {
  
     
    public MenuBar(String menuTitle, String menuItem){
-       super();
-       menuBar= new JMenuBar();
-       menu= new JMenu(menuTitle);
+        super();
+        menuBar= new JMenuBar();
+        menu= new JMenu(menuTitle);
         menu.setMnemonic(KeyEvent.VK_A);
         menu.getAccessibleContext().setAccessibleDescription(menuItem);
         menuBar.add(menu);
