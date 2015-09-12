@@ -10,7 +10,8 @@ package hoteladmin;
  * @author lokal
  */
 import java.io.Serializable;
-import  java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
@@ -23,6 +24,7 @@ import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Store;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 
 
 
@@ -34,7 +36,7 @@ public class SearchGuest implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="ID", unique=true)
-    private int ID;
+    private int id;
     
    
     @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
@@ -52,32 +54,30 @@ public class SearchGuest implements Serializable {
     @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
     private String phone;
     
+   
     @OneToMany(mappedBy="searchGuest")
     //@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
-    private Set<SearchReservations> searchReservations;
+   
+    private List<SearchReservations> searchReservations = new ArrayList<>();
+    
+  
 
-    public Set<SearchReservations> getSearchReservations() {
+    public List<SearchReservations> getSearchReservations() {
         return searchReservations;
     }
 
-    public void setSearchReservations(Set<SearchReservations> searchReservations) {
+    public void setSearchReservations(List<SearchReservations> searchReservations) {
         this.searchReservations = searchReservations;
     }
+
     
-    public Set<SearchReservations> getReservations() {
-        return searchReservations;
-    }
-    
-    public void setReservations(Set<SearchReservations> reservations) {
-        this.searchReservations = reservations;
+
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
     
    
