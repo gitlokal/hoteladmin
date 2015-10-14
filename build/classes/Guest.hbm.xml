@@ -10,6 +10,6 @@
     <property name="street" column="STREET" type="string"/>
     <property name="city" column="CITY" type="string"/>
     <property name="phone" column="PHONE" type="string"/>
-  
+    
     </class>
 </hibernate-mapping>

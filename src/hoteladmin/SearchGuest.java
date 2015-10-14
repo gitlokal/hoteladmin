@@ -35,7 +35,7 @@ public class SearchGuest implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="ID", unique=true)
+    //@Column(name="ID", unique=true)
     private int id;
     
    
@@ -55,23 +55,24 @@ public class SearchGuest implements Serializable {
     private String phone;
     
    
-    @OneToMany(mappedBy="searchGuest")
-    //@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
-   
-    private List<SearchReservations> searchReservations = new ArrayList<>();
-    
+//    @OneToMany(mappedBy="searchGuest")
+//    @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
+//   
+//    private List<SearchReservations> searchReservations = new ArrayList<>();
+//    
+//  
+//
+//    public List<SearchReservations> getSearchReservations() {
+//        return searchReservations;
+//    }
+//
+//    public void setSearchReservations(List<SearchReservations> searchReservations) {
+//        this.searchReservations = searchReservations;
+//    }
+//
+//    
+
   
-
-    public List<SearchReservations> getSearchReservations() {
-        return searchReservations;
-    }
-
-    public void setSearchReservations(List<SearchReservations> searchReservations) {
-        this.searchReservations = searchReservations;
-    }
-
-    
-
     public void setId(int id) {
         this.id = id;
     }

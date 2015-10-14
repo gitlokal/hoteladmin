@@ -31,7 +31,7 @@ import org.hibernate.search.annotations.Store;
  * @author lokal
  */
 @Entity
-
+@Indexed
 @Table(name="RESERVATIONS")
 
 public class SearchReservations implements Serializable {
@@ -43,16 +43,16 @@ public class SearchReservations implements Serializable {
     
     @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
     @Temporal(TemporalType.TIMESTAMP)
-   @DateBridge(resolution=Resolution.MINUTE)
-    private Date resFrom;
+   @DateBridge(resolution=Resolution.HOUR)
+    private Date res_From;
     
     @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
     @Temporal(TemporalType.TIMESTAMP)
-    @DateBridge(resolution=Resolution.MINUTE)
-    private Date resTo;
+    @DateBridge(resolution=Resolution.HOUR)
+    private Date res_To;
     
     @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
-    private Short roomNr;
+    private int room_Nr;
      
     @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
     private String services;
@@ -65,19 +65,19 @@ public class SearchReservations implements Serializable {
     
    
     
-    //@Field(index=Index.YES, analyze=Analyze.NO, store=Store.NO)
-    @ManyToOne
-    @JoinColumn(name="GUEST")
-    
-    private SearchGuest searchGuest = new SearchGuest();
-
-    public SearchGuest getSearchGuest() {   
-        return searchGuest;
-    }
-
-    public void setSearchGuest(SearchGuest searchGuest) {
-        this.searchGuest = searchGuest;
-    }   
+//    @Field(index=Index.YES, analyze=Analyze.NO, store=Store.NO)
+//    @ManyToOne
+//    @JoinColumn(name="GUEST")
+//    
+//    private SearchGuest searchGuest = new SearchGuest();
+//
+//    public SearchGuest getSearchGuest() {   
+//        return searchGuest;
+//    }
+//
+//    public void setSearchGuest(SearchGuest searchGuest) {
+//        this.searchGuest = searchGuest;
+//    }   
     
     public SearchReservations() {
     }
@@ -86,11 +86,6 @@ public class SearchReservations implements Serializable {
         this.id = id;
     }
 
-    public SearchReservations(Integer id, Date resFrom, String services) {
-        this.id = id;
-        this.resFrom = resFrom;
-        this.services = services;
-    }
 
     public Integer getId() {
         return id;
@@ -101,31 +96,31 @@ public class SearchReservations implements Serializable {
     }
 
     public Date getResFrom() {
-        return resFrom;
+        return res_From;
     }
 
     public void setResFrom(Date resFrom) {
-        this.resFrom = resFrom;
+        this.res_From = resFrom;
     }
 
     public Date getResTo() {
-        return resTo;
+        return res_To;
     }
 
     public void setResTo(Date resTo) {
-        this.resTo = resTo;
+        this.res_To = resTo;
     }
 
-    public Short getRoomNr() {
-        return roomNr;
+    public int getRoomNr() {
+        return room_Nr;
     }
-
+    
     public int getGuest() {
         return guest;
     }
 
-    public void setRoomNr(Short roomNr) {
-        this.roomNr = roomNr;
+    public void setRoomNr(int roomNr) {
+        this.room_Nr = roomNr;
     }
 
     public void setGuest(int guest) {

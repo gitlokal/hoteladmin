@@ -20,7 +20,7 @@ import org.hibernate.search.annotations.Indexed;
 
 
   @Entity
-  @Indexed
+ // @Indexed
 public class Guest implements Serializable {
       
     @Id

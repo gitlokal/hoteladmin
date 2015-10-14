@@ -13,6 +13,7 @@ package hoteladmin;
 
 import java.io.Serializable;
 import java.util.Date;  
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
@@ -22,25 +23,31 @@ import javax.persistence.TemporalType;
 import org.hibernate.search.annotations.Indexed;
 
  @Entity
- @Indexed
+ //@Indexed
 public class Reservations implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     
-    @Temporal(TemporalType.TIMESTAMP)
+   
     private Date res_from;
     
-    @Temporal(TemporalType.TIMESTAMP)
+  
     private Date res_to;
     
+  
     private int room_nr;
     
+ 
     private String services;
     
+
     private float bill;
       
+
+    private int guest;
+    
     public void setId(int id) {
         this.id = id;
     }
@@ -65,6 +72,10 @@ public class Reservations implements Serializable {
         this.bill = bill;
     }
 
+    public void setGuest(int guest) {
+        this.guest = guest;
+    }
+
     public int getId() {
         return id;
     }
@@ -87,6 +98,10 @@ public class Reservations implements Serializable {
 
     public float getBill() {
         return bill;
+    }
+
+    public int getGuest() {
+        return guest;
     }
     
     
